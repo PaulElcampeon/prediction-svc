@@ -1,0 +1,4 @@
+package com.splash.prediction.svc.dto;
+
+public class PredictionDto {
+}
