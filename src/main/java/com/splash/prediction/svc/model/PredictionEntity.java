@@ -1,6 +1,7 @@
 package com.splash.prediction.svc.model;
 
 import com.splash.prediction.svc.enums.PredictionOutcome;
+import com.splash.prediction.svc.enums.PredictionState;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -38,6 +39,10 @@ public class PredictionEntity {
     private Long matchId;
     @Column(nullable = false)
     private String predictedWinner;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private PredictionState state = PredictionState.OPEN;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @Builder.Default

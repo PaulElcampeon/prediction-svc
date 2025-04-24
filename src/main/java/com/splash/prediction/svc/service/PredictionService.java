@@ -3,6 +3,7 @@ package com.splash.prediction.svc.service;
 import com.splash.prediction.svc.dto.CreatePredictionRequest;
 import com.splash.prediction.svc.dto.PredictionDto;
 import com.splash.prediction.svc.dto.UpdatePredictionRequest;
+import com.splash.prediction.svc.enums.PredictionState;
 import com.splash.prediction.svc.mapper.PredictionMapper;
 import com.splash.prediction.svc.model.PredictionEntity;
 import com.splash.prediction.svc.repository.PredictionRepo;
@@ -34,6 +35,10 @@ public class PredictionService {
         PredictionEntity existingPrediction = predictionRepo.findById(updatePredictionRequest.predictionId())
                 .orElseThrow(() -> new RuntimeException("Prediction not found"));
 
+        if (!isPredictionOpen(existingPrediction)) {
+            throw new RuntimeException("Cannot update a prediction that is not open");
+        }
+
         existingPrediction.setPredictedWinner(updatePredictionRequest.predictedWinner());
 
         existingPrediction = predictionRepo.save(existingPrediction);
@@ -47,5 +52,9 @@ public class PredictionService {
         return predictions.stream()
                 .map(predictionMapper::mapToDto)
                 .toList();
+    }
+
+    private boolean isPredictionOpen(PredictionEntity prediction) {
+        return prediction.getState() == PredictionState.OPEN;
     }
 }
