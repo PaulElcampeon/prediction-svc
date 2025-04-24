@@ -4,6 +4,7 @@ import com.splash.prediction.svc.dto.CreatePredictionRequest;
 import com.splash.prediction.svc.dto.PredictionDto;
 import com.splash.prediction.svc.dto.UpdatePredictionRequest;
 import com.splash.prediction.svc.enums.PredictionOutcome;
+import com.splash.prediction.svc.enums.PredictionState;
 import com.splash.prediction.svc.model.PredictionEntity;
 import com.splash.prediction.svc.repository.PredictionRepo;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -149,5 +149,27 @@ class PredictionControllerIT {
         ResponseEntity<String> response = restTemplate.postForEntity(baseUrl, requestEntity, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void updatePrediction_ShouldFail_WhenPredictionState_Closed() {
+        PredictionEntity saved = predictionRepo.save(PredictionEntity.builder()
+                .userId(1L)
+                .matchId(102L)
+                .predictedWinner("Team B")
+                .outcome(PredictionOutcome.AWAITING)
+                .state(PredictionState.CLOSED)
+                .build());
+
+        UpdatePredictionRequest updateRequest = new UpdatePredictionRequest(saved.getId(), "Team C");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<UpdatePredictionRequest> requestEntity = new HttpEntity<>(updateRequest, headers);
+
+        ResponseEntity<PredictionDto> response = restTemplate.exchange(baseUrl, HttpMethod.PUT, requestEntity, PredictionDto.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

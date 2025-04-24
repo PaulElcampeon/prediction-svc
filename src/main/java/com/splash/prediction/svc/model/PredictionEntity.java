@@ -20,6 +20,8 @@ import lombok.ToString;
 
 import java.time.Instant;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Builder
 @NoArgsConstructor
@@ -31,7 +33,7 @@ import java.time.Instant;
 public class PredictionEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
     @Column(nullable = false)
     private Long userId;
