@@ -37,7 +37,14 @@ A minimal, cleanly designed REST API for creating and managing user match predic
   Would add auto-generated documentation using SpringDoc OpenAPI or Swagger UI to provide a browsable and testable interface for the API. This would make it easy for developers to explore endpoints, models, and expected inputs/outputs.
 
 - 📊 Pagination Support Implement pagination for list endpoints (e.g., predictions) using Spring Data’s Pageable interface. This ensures better performance and scalability, especially when dealing with large datasets.
+
+- ⚡ Rate Limiting
+  Implement rate limiting to protect the API from abuse and ensure fair usage. This would restrict the number of requests a user can make within a certain time period, preventing overload and safeguarding system resources.
+
+- 🗂️ HTTP Caching
+  Implement caching of predictions to improve performance. When requests for user predictions are made, the service could check if the data is already cached and return it instead of querying the database again. This would reduce load times and database hits.
 ---
+
 
 🖼️ Diagrams
 This section includes the essential diagrams for understanding the architecture, sequence of interactions, and database entities for the Prediction Service.
