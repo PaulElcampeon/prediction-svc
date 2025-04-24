@@ -8,12 +8,14 @@ import com.splash.prediction.svc.mapper.PredictionMapper;
 import com.splash.prediction.svc.model.PredictionEntity;
 import com.splash.prediction.svc.repository.PredictionRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PredictionService {
 
     private final PredictionRepo predictionRepo;
@@ -27,6 +29,8 @@ public class PredictionService {
                 .build();
 
         newPrediction = predictionRepo.save(newPrediction);
+
+        log.info("Created new prediction: {}", newPrediction);
 
         return predictionMapper.mapToDto(newPrediction);
     }
@@ -43,11 +47,15 @@ public class PredictionService {
 
         existingPrediction = predictionRepo.save(existingPrediction);
 
+        log.info("Updated prediction: {}", existingPrediction);
+
         return predictionMapper.mapToDto(existingPrediction);
     }
 
     public List<PredictionDto> getAllPredictionsByUserId(Long userId) {
         List<PredictionEntity> predictions = predictionRepo.findAllByUserId(userId);
+
+        log.info("Fetched {} predictions for userId: {}", predictions.size(), userId);
 
         return predictions.stream()
                 .map(predictionMapper::mapToDto)
