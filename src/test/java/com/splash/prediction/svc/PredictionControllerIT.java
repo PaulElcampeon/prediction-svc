@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -30,6 +32,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
+@ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class PredictionControllerIT {
 
@@ -79,6 +82,12 @@ class PredictionControllerIT {
         List<PredictionEntity> all = predictionRepo.findAll();
 
         assertThat(all.size()).isEqualTo(1);
+        PredictionEntity predictionEntity = all.get(0);
+
+        assertThat(predictionEntity.getUserId()).isEqualTo(1L);
+        assertThat(predictionEntity.getMatchId()).isEqualTo(101L);
+        assertThat(predictionEntity.getPredictedWinner()).isEqualTo("Team A");
+        assertThat(predictionEntity.getOutcome()).isEqualTo(PredictionOutcome.AWAITING);
     }
 
     @Test

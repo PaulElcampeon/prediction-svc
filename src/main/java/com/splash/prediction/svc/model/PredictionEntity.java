@@ -40,7 +40,8 @@ public class PredictionEntity {
     private String predictedWinner;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PredictionOutcome outcome;
+    @Builder.Default
+    private PredictionOutcome outcome = PredictionOutcome.AWAITING;
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
     @Column(nullable = false)
