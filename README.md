@@ -44,7 +44,7 @@ This section includes the essential diagrams for understanding the architecture,
 
 Sequence Diagram
 
-![Sequence Diagram: : Client to Prediction Service Flow](sequence_flow.drawio.png)
+![Sequence Diagram](sequence_diagram.drawio.png)
 
 Entity Diagram
 
