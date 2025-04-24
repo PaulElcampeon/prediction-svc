@@ -1,6 +1,7 @@
 package com.splash.prediction.svc.model;
 
-import com.splash.prediction.svc.enums.PredictionOutcome;
+import com.splash.prediction.svc.enums.MatchStatus;
+import com.splash.prediction.svc.enums.SportType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,6 +19,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -26,25 +28,28 @@ import java.time.Instant;
 @Getter
 @Setter
 @ToString
-@Table(name = "prediction")
-public class PredictionEntity {
+@Table(name = "match")
+public class MatchEntity {
 
     @Id
     @GeneratedValue
     private Long id;
     @Column(nullable = false)
-    private Long userId;
-    @Column(unique = true, nullable = false)
-    private Long matchId;
-    @Column(nullable = false)
-    private String predictedWinner;
+    @Enumerated(EnumType.STRING)
+    private MatchStatus matchStatus;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PredictionOutcome outcome;
+    private SportType sportType;
+    @Column(nullable = false)
+    private String teams;// Comma-separated string like "Team A,Team B"
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
     @Column(nullable = false)
     private Instant updatedAt;
+
+    public Set<String> getTeamSet() {
+        return Set.of(teams.split(","));
+    }
 
     @PrePersist
     private void prePersist() {

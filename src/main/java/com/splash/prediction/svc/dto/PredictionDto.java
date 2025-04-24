@@ -1,4 +1,11 @@
 package com.splash.prediction.svc.dto;
 
-public class PredictionDto {
+import com.splash.prediction.svc.enums.PredictionOutcome;
+
+public record PredictionDto(
+        Long predictionId,
+        Long matchId,
+        String predictedWinner,
+        PredictionOutcome outcome
+) {
 }

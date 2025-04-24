@@ -1,4 +1,8 @@
 package com.splash.prediction.svc.dto;
 
-public class CreatePredictionRequest {
+public record CreatePredictionRequest(
+        Long userId,
+        Long matchId,
+        String predictedWinner
+) {
 }

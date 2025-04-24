@@ -1,4 +1,7 @@
 package com.splash.prediction.svc.dto;
 
-public class UpdatePredictionRequest {
+public record UpdatePredictionRequest(
+        Long predictionId,
+        String predictedWinner
+) {
 }
