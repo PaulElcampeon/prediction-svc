@@ -22,7 +22,7 @@ A minimal, cleanly designed REST API for creating and managing user match predic
 - DTOs use JSR-380 annotations (`@NotNull`, etc.) for simple validation.
 ---
 
-## 🔁 Tradeoffs & Improvements (with More Time)
+## 🔁 Improvements (with More Time)
 
 - 🔐 **Authentication & Authorization**  
   Introduce JWT-based security so that all requests go through a filter to validate and authorize based on token claims.
