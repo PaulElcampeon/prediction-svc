@@ -1,4 +1,4 @@
-package com.splash.prediction_svc;
+package com.splash.prediction.svc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
