@@ -40,6 +40,7 @@ public class PredictionService {
                 .orElseThrow(() -> new RuntimeException("Prediction not found"));
 
         if (!isPredictionOpen(existingPrediction)) {
+            log.error("Cannot update prediction with ID {}: it is not open", existingPrediction.getId());
             throw new RuntimeException("Cannot update a prediction that is not open");
         }
 
